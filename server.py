@@ -14,9 +14,35 @@ while True:
 
     operation = connectionSocket.recv(1024).decode().split(' ')
 
+    print(operation)
+    result = "empty"
+    op = operation[0]
+
+    # Check if the operands are digits
+    if(not operation[1].isdigit() or not operation[2].isdigit()):
+        result = "operand(s) not digits"
+        connectionSocket.send(str(result).encode())
+    # operands entered are digits, cast
+    operand1 = int(operation[1])
+    operand2 = int(operation[2])
+
+    # Check that OC is valid
+    if(op != '+' and op != '-' and op != '/' and op != '*'):
+        result = "bad request"
+        connectionSocket.send(str(result).encode())
+
+    # Check for divide by zero
+    if (op == '/' and operand2 == 0):
+        result = "bad request, divide by zero"
+        connectionSocket.send(str(result).encode())
+
+    # Request is valid, compute and send to client
+    else:
+        result = "good request"
+        connectionSocket.send(str(result).encode())
+
     # TODO checks
     # TODO some stuff (AKA the calculations)
-    result = 0
 
 
     connectionSocket.send(str(result).encode())
