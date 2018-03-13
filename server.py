@@ -39,6 +39,15 @@ while True:
     # Request is valid, compute and send to client
     else:
         result = "good request"
+        if(op == "+"):
+            result = str(operand1 + operand2)
+        elif(op == "-"):
+            result = str(operand1 - operand2)
+        elif(op == "*"):
+            result = str(operand1 * operand2)
+        # operator is /
+        else:
+            result = str(operand1 / operand2)
         connectionSocket.send(str(result).encode())
 
     # TODO checks
