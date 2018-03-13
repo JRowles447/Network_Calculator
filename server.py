@@ -12,16 +12,18 @@ while True:
     operation = connectionSocket.recv(1024).decode().split(' ')
 
     print(operation)
-    result = "empty"
     op = operation[0]
 
     # Check if the operands are digits
-    if(not operation[1].isdigit() or not operation[2].isdigit()):
+    operable =not(not operation[1].isdigit() or not operation[2].isdigit())
+    if(not operable):
         result = "300 -1"
         connectionSocket.send(str(result).encode())
+
     # operands entered are digits, cast
-    operand1 = int(operation[1])
-    operand2 = int(operation[2])
+    if(operable):
+        operand1 = int(operation[1])
+        operand2 = int(operation[2])
 
     # Check that OC is valid
     if(op != '+' and op != '-' and op != '/' and op != '*'):
@@ -46,6 +48,4 @@ while True:
         else:
             result = "200 " + str(operand1 / operand2)
         connectionSocket.send(str(result).encode())
-
-    connectionSocket.send(str(result).encode())
     connectionSocket.close()

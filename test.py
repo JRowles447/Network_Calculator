@@ -7,11 +7,9 @@ serverPort = 61012
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName, serverPort))
 
-# test
-
-
 class TestStringMethods(unittest.TestCase):
 
+    # test the addition operator
     def test_addition1(self):
         operation = "+ 9 1111"
         clientSocket.send(str(operation).encode())
@@ -37,7 +35,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(1122, int(result.decode().split(' ')[1]))
         clientSocket.close()
 
-
+    # test the subtraction operator
     def test_subtraction(self):
         operation = "- 9 1"
         clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -63,6 +61,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(32, int(result.decode().split(' ')[1]))
         clientSocket.close()
 
+    # test the multiplication * operator
     def test_multiplication(self):
         operation = "* 9 1"
         clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -104,6 +103,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(35, int(result.decode().split(' ')[1]))
         clientSocket.close()
 
+    # test the division "/" operator
     def test_division(self):
         operation = "/ 9 1"
         clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -113,6 +113,7 @@ class TestStringMethods(unittest.TestCase):
         clientSocket.close()
         self.assertEqual(str(9.0), result.decode().split(' ')[1])
 
+        # divide 0 by another int
         operation = "/ 0 12"
         clientSocket = socket(AF_INET, SOCK_STREAM)
         clientSocket.connect((serverName, serverPort))
@@ -144,6 +145,48 @@ class TestStringMethods(unittest.TestCase):
         result = clientSocket.recv(1024)
         clientSocket.close()
         self.assertEqual(str(100.0), result.decode().split(' ')[1])
+
+    # test divide by zero
+    def test_invalid_divide_by_zero(self):
+        operation = "/ 29183 0"
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((serverName, serverPort))
+        clientSocket.send(str(operation).encode())
+        result = clientSocket.recv(1024)
+        clientSocket.close()
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
+
+    # test invalid operator
+    def test_invalid_operator(self):
+        operation = "q 929 32"
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((serverName, serverPort))
+        clientSocket.send(str(operation).encode())
+        result = clientSocket.recv(1024)
+        clientSocket.close()
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
+
+    # test invalid non-integer operands
+    def test_invalid_operands(self):
+        operation = "+ k 63"
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((serverName, serverPort))
+        clientSocket.send(str(operation).encode())
+        result = clientSocket.recv(1024)
+        clientSocket.close()
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
+
+        operation = "+ 371 /"
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((serverName, serverPort))
+        clientSocket.send(str(operation).encode())
+        result = clientSocket.recv(1024)
+        clientSocket.close()
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
 
 if __name__ == '__main__':
     unittest.main()
