@@ -1,6 +1,5 @@
 from socket import *
 
-
 serverPort = 61012
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(('', serverPort))
@@ -9,7 +8,7 @@ print('SERVER IS READY TO RECEIVE')
 
 while True:
     connectionSocket, addr = serverSocket.accept()
-    operation = connectionSocket.recv(1024).decode().split(' ')
+    operation = connectionSocket.recv(1024).decode().split(', ')
 
     print(operation)
     op = operation[0]
