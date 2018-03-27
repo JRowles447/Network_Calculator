@@ -11,7 +11,6 @@ dropRate = float(input("Specify drop rate: "))
 print('SERVER IS READY TO RECEIVE')
 
 while True:
-
     operation, clientAddress = serverSocket.recvfrom(1024)
     operation = operation.decode().split(', ')
     print(operation)
@@ -64,4 +63,3 @@ while True:
             else:
                 result = "200 " + str(operand1 / operand2)
             serverSocket.sendto(str(result).encode(), clientAddress)
-    # connectionSocket.close()
