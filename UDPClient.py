@@ -1,26 +1,24 @@
 from socket import *
+import time
 import select
 
 while True:
     serverName = '127.0.0.1'
     serverPort = 61012
     clientSocket = socket(AF_INET, SOCK_DGRAM)
-
-    # clientSocket.connect((serverName, serverPort))
     operation = input('Input operator and two integers:')
 
     clientSocket.sendto(str(operation).encode(), (serverName, serverPort))
 
-    # clientSocket.connect((serverName, serverPort))
     d = 0.1
-    result = ""
     timedout = True
     while(d < 2.0 and timedout):
-        # clientSocket.settimeout(d)
-
+        print("in the loop")
+        current_time = time.clock()
+        print(current_time)
         try:
             timedout = False
-            response, addr = clientSocket.recvfrom (1024)
+            response, addr = clientSocket.recvfrom(1024)
             print(response.decode())
         # print(timedout)
 
@@ -49,9 +47,9 @@ while True:
     if (d < 1.6 and not timedout):
         print(clientSocket.gettimeout())
         print(d)
-        # result = clientSocket.recv(1024)
-        print("START " + result.decode() + " END")
-        print('Result From Server: ' + result.decode().split(', ')[1] + " Status: " + result.decode().split(', ')[0])
+
+        print("START " + response.decode() + " END")
+        print('Result From Server: ' + response.decode().split(' ')[1] + " Status: " + response.decode().split(' ')[0])
     else:
         print("IT FAILED")
         print(d)
