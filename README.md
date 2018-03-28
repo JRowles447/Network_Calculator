@@ -56,7 +56,8 @@ Once the client sends a string of the form: `operator, operand1, operand2`, the 
 
 ## Testing
 ---
-Extensive testing was preformed over both of the UDP and TCP protocols.
+Extensive testing was performed over both of the UDP and TCP protocols. For the both, several tests for each of the four operations were performed and the results (the calculated value and the status code) were checked. There was also a test checking that divide by zero was rejected by the server (Result = -1 and Status = 300). A check was also performed to check that invalid operators (i.e. ones that are not '+', '-', '\*', '\') were rejected. Another test was performed to test whether invalid operands (i.e. that the operands are digits and not operators or letters) were rejected. A final check was performed to test whether arguments of an invalid length (e.g. '+, 4' or '8'), were rejected. 
+
 ## Dependencies
 ---
 Uses Python version 3.5.3
