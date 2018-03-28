@@ -187,5 +187,15 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(-1, int(result.decode().split(' ')[1]))
         self.assertEqual(300, int(result.decode().split(' ')[0]))
 
+    def test_invalid_num_args(self):
+        operation = "+, 3"
+        clientSocket = socket(AF_INET, SOCK_STREAM)
+        clientSocket.connect((serverName, serverPort))
+        clientSocket.send(str(operation).encode())
+        result = clientSocket.recv(1024)
+        clientSocket.close()
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
+
 if __name__ == '__main__':
     unittest.main()

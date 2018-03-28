@@ -168,5 +168,15 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(300, int(result.decode().split(' ')[0]))
         clientSocket.close()
 
+    # test invalid number of arguments
+    def test_invalid_num_args(self):
+        operation = "12"
+        clientSocket = socket(AF_INET, SOCK_DGRAM)
+        clientSocket.sendto(str(operation).encode(), (serverName, serverPort))
+        result, addr = clientSocket.recvfrom(1024)
+        self.assertEqual(-1, int(result.decode().split(' ')[1]))
+        self.assertEqual(300, int(result.decode().split(' ')[0]))
+        clientSocket.close()
+
 if __name__ == '__main__':
     unittest.main()
