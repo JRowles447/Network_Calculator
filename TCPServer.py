@@ -10,41 +10,46 @@ while True:
     connectionSocket, addr = serverSocket.accept()
     operation = connectionSocket.recv(1024).decode().split(', ')
 
-    print(operation)
-    op = operation[0]
+    operable = False
 
-    # Check if the operands are digits
-    operable =not(not operation[1].isdigit() or not operation[2].isdigit())
-    if(not operable):
+    print(operation)
+    if (len(operation) != 3):
         result = "300 -1"
         connectionSocket.send(str(result).encode())
+    else:
+        op = operation[0]
+        # Check if the operands are digits
+        operable =not(not operation[1].isdigit() or not operation[2].isdigit())
+        if(not operable):
+            result = "300 -1"
+            connectionSocket.send(str(result).encode())
 
     # operands entered are digits, cast
     if(operable):
         operand1 = int(operation[1])
         operand2 = int(operation[2])
 
-    # Check that OC is valid
-    if(op != '+' and op != '-' and op != '/' and op != '*'):
-        result = "300 -1"
-        connectionSocket.send(str(result).encode())
+        # Check that OC is valid
+        if(op != '+' and op != '-' and op != '/' and op != '*'):
+            result = "300 -1"
+            connectionSocket.send(str(result).encode())
 
-    # Check for divide by zero
-    if (op == '/' and operand2 == 0):
-        result = "300 -1"
-        connectionSocket.send(str(result).encode())
+        # Check for divide by zero
+        if (op == '/' and operand2 == 0):
+            result = "300 -1"
+            connectionSocket.send(str(result).encode())
 
-    # Request is valid, compute and send to client
-    else:
-        result = "good request"
-        if(op == "+"):
-            result = "200 " + str(operand1 + operand2)
-        elif(op == "-"):
-            result = "200 " + str(operand1 - operand2)
-        elif(op == "*"):
-            result = "200 " + str(operand1 * operand2)
-        # operator is /
+        # Request is valid, compute and send to client
         else:
-            result = "200 " + str(operand1 / operand2)
-        connectionSocket.send(str(result).encode())
+            result = "good request"
+            if(op == "+"):
+                result = "200 " + str(operand1 + operand2)
+            elif(op == "-"):
+                result = "200 " + str(operand1 - operand2)
+            elif(op == "*"):
+                result = "200 " + str(operand1 * operand2)
+            # operator is /
+            else:
+                result = "200 " + str(operand1 / operand2)
+            connectionSocket.send(str(result).encode())
     connectionSocket.close()
