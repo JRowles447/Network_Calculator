@@ -1,6 +1,4 @@
 from socket import *
-import time
-import select
 
 while True:
     serverName = '127.0.0.1'
@@ -13,14 +11,11 @@ while True:
 
     d = 0.1
     timedout = True
+    # Request and retransmit request until we receive response or the timeout (d) reaches 2.0
     while(d < 2.0 and timedout):
         clientSocket.settimeout(d)
-        print("in the loop")
-        current_time = time.clock()
-        print(current_time)
         try:
             timedout = False
-            # time.sleep(d)
             response, addr = clientSocket.recvfrom(1024)
             print(response.decode())
         # No response in the timer, loop back and send again
@@ -29,12 +24,8 @@ while True:
             d = d * 2
             clientSocket.sendto(str(operation).encode(), (serverName, serverPort))
 
-    if (d < 1.6 and not timedout):
-        print(d)
-        print("START " + response.decode() + " END")
+    # There is a response from the server within the exponential backoff time
+    if (d < 2.0 and not timedout):
         print('Result From Server: ' + response.decode().split(' ')[1] + " Status: " + response.decode().split(' ')[0])
     else:
-        print("IT FAILED")
-        print(d)
-        print('Request timed out')
-# set up a timer
+        print("Server is DEAD")
