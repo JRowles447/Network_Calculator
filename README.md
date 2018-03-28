@@ -2,6 +2,24 @@
 <!-- add description of the project (the goal) -->
 Network_Calculator contains code to run a TCP server and client and UDP server and client. The client provides the server with an operator and two operands and the server acts as a calculator and returns the result of the operation. In the case of the UDP server and client, the user specifies the drop rate (to simulate unreliability of UDP and the Network layer).
 
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Network_Calculator](#networkcalculator)
+	- [File Directory](#file-directory)
+	- [Running Network_Calculator](#running-networkcalculator)
+		- [TCP Protocol](#tcp-protocol)
+		- [UDP Protocol](#udp-protocol)
+	- [Description of Design](#description-of-design)
+		- [TCPServer.py](#tcpserverpy)
+		- [TCPClient.py](#tcpclientpy)
+		- [UDPServer.py](#udpserverpy)
+		- [UDPClient.py](#udpclientpy)
+	- [Extensions](#extensions)
+	- [Testing](#testing)
+	- [Dependencies](#dependencies)
+
+<!-- /TOC -->
+
 <!-- description of files -->
 ## File Directory
 Description of the files within the directory:
