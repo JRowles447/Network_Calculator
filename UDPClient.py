@@ -22,10 +22,12 @@ while True:
         except timeout:
             timedout = True
             d = d * 2
+            # Retransmit the request
             clientSocket.sendto(str(operation).encode(), (serverName, serverPort))
 
     # There is a response from the server within the exponential backoff time
     if (d < 2.0 and not timedout):
         print('Result From Server: ' + response.decode().split(' ')[1] + " Status: " + response.decode().split(' ')[0])
+    # There is no response from the server within the allocated time
     else:
         print("Server is DEAD")
