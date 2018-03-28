@@ -17,7 +17,7 @@ while True:
         try:
             timedout = False
             response, addr = clientSocket.recvfrom(1024)
-            print(response.decode())
+            # print(response.decode())
         # No response in the timer, loop back and send again
         except timeout:
             timedout = True
